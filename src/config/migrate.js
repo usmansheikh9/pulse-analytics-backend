@@ -1,8 +1,9 @@
 require('dotenv').config()
 const { query } = require('./db')
+const { logger } = require('../utils')
 
-const migrate = async () => {
-  console.log('Running migrations...')
+async function migrate() {
+  logger.info('Running migrations...')
 
   await query(`
     CREATE TABLE IF NOT EXISTS users (
@@ -38,15 +39,15 @@ const migrate = async () => {
     )
   `)
 
-  await query(`CREATE INDEX IF NOT EXISTS idx_events_created_at ON events(created_at DESC)`)
-  await query(`CREATE INDEX IF NOT EXISTS idx_events_type ON events(type)`)
-  await query(`CREATE INDEX IF NOT EXISTS idx_metrics_snapshot_at ON metrics_snapshots(snapshot_at DESC)`)
+  await query('CREATE INDEX IF NOT EXISTS idx_events_created_at ON events(created_at DESC)')
+  await query('CREATE INDEX IF NOT EXISTS idx_events_type ON events(type)')
+  await query('CREATE INDEX IF NOT EXISTS idx_metrics_snapshot_at ON metrics_snapshots(snapshot_at DESC)')
 
-  console.log('Migrations complete')
+  logger.info('Migrations complete')
   process.exit(0)
 }
 
 migrate().catch(err => {
-  console.error('Migration failed:', err.message)
+  logger.error('Migration failed:', err.message)
   process.exit(1)
 })

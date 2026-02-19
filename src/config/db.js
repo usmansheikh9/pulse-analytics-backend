@@ -1,4 +1,5 @@
 const { Pool } = require('pg')
+const { logger } = require('../utils')
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -8,8 +9,8 @@ const pool = new Pool({
   connectionTimeoutMillis: 2000,
 })
 
-pool.on('error', (err) => {
-  console.error('Unexpected DB pool error:', err.message)
+pool.on('error', err => {
+  logger.error('Unexpected DB pool error:', err.message)
 })
 
 const query = (text, params) => pool.query(text, params)
