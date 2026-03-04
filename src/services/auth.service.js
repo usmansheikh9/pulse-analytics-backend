@@ -2,8 +2,13 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { query } = require('../config/db')
 const { AppError } = require('../utils')
+const { JWT_DEFAULT_EXPIRY } = require('../config/constants')
 
-const signToken = id => jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || '7d' })
+function signToken(id) {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN || JWT_DEFAULT_EXPIRY,
+  })
+}
 
 const loginUser = async (email, password) => {
   const { rows } = await query('SELECT * FROM users WHERE email = $1', [email.toLowerCase()])

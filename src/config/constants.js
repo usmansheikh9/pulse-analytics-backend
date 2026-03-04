@@ -9,7 +9,14 @@ const ROLES = {
   VIEWER: 'viewer',
 }
 
+const RATE_LIMIT = {
+  WINDOW_MS: 15 * 60 * 1000,
+  MAX_REQUESTS: 200,
+}
+
 const SIMULATOR_INTERVAL_MS = 3000
+
+const JWT_DEFAULT_EXPIRY = '7d'
 
 const PAGES = [
   '/dashboard', '/analytics', '/settings', '/login',
@@ -24,4 +31,4 @@ const USER_AGENTS = [
   'Mozilla/5.0 (Linux; Android 13) Chrome/120 Mobile',
 ]
 
-module.exports = { EVENT_TYPES, ROLES, SIMULATOR_INTERVAL_MS, PAGES, USER_AGENTS }
+module.exports = { EVENT_TYPES, ROLES, RATE_LIMIT, SIMULATOR_INTERVAL_MS, JWT_DEFAULT_EXPIRY, PAGES, USER_AGENTS }
